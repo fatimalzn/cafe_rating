@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap(app)
 
-
+# form to add new cafe 
+# added studying ability rating
 class CafeForm(FlaskForm):
     cafe = StringField('Cafe name', validators=[DataRequired()])
     location = StringField('Cage Location on Google Maps(URL)', validators=[DataRequired(), URL()])
@@ -21,6 +22,10 @@ class CafeForm(FlaskForm):
                               validators=[DataRequired()])
     p_outlet_rating = SelectField('Power Socket Availability', choices=["✘", "🔌", "🔌🔌", "🔌🔌🔌", "🔌🔌🔌🔌", "🔌🔌🔌🔌🔌"],
                                   validators=[DataRequired()])
+    studying = SelectField('Studying ability', choices=["✘", "📚", "📚📚", "📚📚📚", "📚📚📚📚", "📚📚📚📚📚"],
+                           validators=[DataRequired()])
+    price = SelectField('Price', choices=["✘", "💲", "💲💲", "💲💲💲", "💲💲💲💲", "💲💲💲💲💲"],
+                        validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -41,7 +46,7 @@ def add_cafe():
         with open("cafe-data.csv", "a", encoding="utf8", newline="") as f_object:
             write_file = csv.writer(f_object)
             list_of_rows = [form.cafe.data, form.location.data, form.open_t.data, form.close_t.data,
-                            form.coffee_rating.data, form.wifi_rating.data, form.p_outlet_rating.data]
+                            form.coffee_rating.data, form.wifi_rating.data, form.p_outlet_rating.data, form.studying.data, form.price.data]
             write_file.writerow(list_of_rows)
             f_object.close()
         return redirect(url_for('cafes'))
